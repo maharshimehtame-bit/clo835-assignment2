@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: employees-rs
+  namespace: employees
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: employees-rs
+  template:
+    metadata:
+      labels:
+        app: employees-rs
+    spec:
+      containers:
+        - name: employees
+          image: employees:v2
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DBHOST
+              value: mysql-service.mysql
+            - name: DBPORT
+              value: "3306"
+            - name: DBUSER
+              value: root
+            - name: DBPWD
+              value: password
+            - name: DBNAME
+              value: employees
+
